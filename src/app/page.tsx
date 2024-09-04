@@ -1,7 +1,7 @@
 
 import UltimoResultado from "@/components/UltimoResultado";
 import { IJogo } from "@/utils/interface/models/jogo";
-import GetJogos from "@/utils/requests/probabilidade.http";
+import { GetJogos } from "@/utils/requests/probabilidade.http";
 
 
 export default async function Home() {
