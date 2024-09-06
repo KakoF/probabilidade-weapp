@@ -1,10 +1,11 @@
 'use client'
 
+import { ILinhaTempo } from "@/utils/interface/models/linhaTempo";
 import ApexCharts from "apexcharts";
 import { useEffect } from "react";
 
 
-export default function BarChartTimeLine() {
+export default function BarChartTimeLine({ linhaTempo }: { linhaTempo: ILinhaTempo }) {
 
     useEffect(function mount() {
         const options = {
@@ -42,13 +43,13 @@ export default function BarChartTimeLine() {
                 height: "320px",
                 fontFamily: "Inter, sans-serif",
                 toolbar: {
-                    show: false,
+                    show: true,
                 },
             },
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: "70%",
+                    columnWidth: "100%",
                     borderRadiusApplication: "end",
                     borderRadius: 8,
                 },
@@ -86,7 +87,7 @@ export default function BarChartTimeLine() {
                 enabled: false,
             },
             legend: {
-                show: false,
+                show: true,
             },
             xaxis: {
                 floating: false,

@@ -2,9 +2,10 @@
 
 import BarChartTimeLine from "@/components/BarChartTimeLine";
 import CardSorteio from "@/components/CardSorteio";
+import { ILinhaTempo } from "@/utils/interface/models/linhaTempo";
 import { ILoteria } from "@/utils/interface/models/loteria";
 import { ISorteio } from "@/utils/interface/models/sorteio";
-import { GetLoterias, GetSorteios } from "@/utils/requests/probabilidade.http";
+import { GetLinhaDoTempo, GetLoterias, GetSorteios } from "@/utils/requests/probabilidade.http";
 import { useState, useEffect } from "react";
 
 
@@ -22,8 +23,25 @@ export default function Home() {
 
 
   async function handleLoteria(event: React.ChangeEvent<any>): Promise<void> {
-    const sorteios: Array<ISorteio> = await GetSorteios(event.currentTarget.value);
+    var loteria = event.currentTarget.value;
+    const sorteios: Array<ISorteio> = await GetSorteios(loteria);
+
+
     setSorteios(sorteios)
+
+    var dezenas = sorteios.map(function (sorteio) {
+      return sorteio.dezenas;
+    }).reduce(function (pre, cur) {
+      return pre.concat(cur);
+    });
+    setBarchart(loteria, dezenas)
+  }
+
+
+  async function setBarchart(loteria: string, dezenas: string[]) {
+    var numeros: number[] = dezenas.map(i => Number(i))
+    var response: ILinhaTempo = await GetLinhaDoTempo(loteria, numeros);
+    console.log(response);
   }
 
 
@@ -36,10 +54,12 @@ export default function Home() {
         {loterias.map((item: ILoteria) => <option key={item.id} value={item.id}>{item.nome}</option>)}
       </select>
       {sorteios.map((sorteio: ISorteio, index: any) => <CardSorteio key={index} sorteio={sorteio} />)}
-      <BarChartTimeLine />
+
 
 
     </main>
   );
 }
+
 //<CardSorteio sorteio={sorteios?.nome ?? ""} numbers={sorteios?.dezenasOrdemSorteio ?? new Array<string>} />
+//<BarChartTimeLine />
