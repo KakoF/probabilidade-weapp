@@ -33,8 +33,8 @@ export default function GraficoLinhaDoTempo({ loteria, sorteios }: { loteria: st
     }
 
     return (
-        <div>
-            {(!linhatempo) ? <h1>No Bar</h1> : <BarChartTimeLine linhaTempo={linhatempo} />}
+        <div className="flex m-4">
+            {(!linhatempo) ? <div className="w-full bg-gray-100">Not Bar</div> : <BarChartTimeLine linhaTempo={linhatempo} />}
         </div>
 
     );

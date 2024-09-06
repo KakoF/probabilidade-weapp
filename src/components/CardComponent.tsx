@@ -1,6 +1,6 @@
 export default function CardComponent({ title, content, badge }: { title: string, content: string, badge: string }) {
     return (
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="px-6 py-4">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
                 <p className="text-gray-700 text-base">
