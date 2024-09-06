@@ -13,10 +13,11 @@ export default function Home() {
   let [loterias, setLoterias] = useState(new Array<ILoteria>)
   let [sorteios, setSorteios] = useState(new Array<ISorteio>)
 
+
   useEffect(() => {
     GetLoterias().then((res) => {
       setLoterias(res)
-    });;
+    });
   }, []);
 
 
