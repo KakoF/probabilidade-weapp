@@ -13,6 +13,7 @@ export default function Home() {
 
   let [loterias, setLoterias] = useState(new Array<ILoteria>)
   let [sorteios, setSorteios] = useState(new Array<ISorteio>)
+  let [linhatempo, setLinhatempo] = useState<ILinhaTempo>()
 
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function Home() {
   async function setBarchart(loteria: string, dezenas: string[]) {
     var numeros: number[] = dezenas.map(i => Number(i))
     var response: ILinhaTempo = await GetLinhaDoTempo(loteria, numeros);
-    console.log(response);
+    setLinhatempo(response);
   }
 
 
@@ -54,6 +55,7 @@ export default function Home() {
         {loterias.map((item: ILoteria) => <option key={item.id} value={item.id}>{item.nome}</option>)}
       </select>
       {sorteios.map((sorteio: ISorteio, index: any) => <CardSorteio key={index} sorteio={sorteio} />)}
+      <BarChartTimeLine linhaTempo={linhatempo} />
 
 
 

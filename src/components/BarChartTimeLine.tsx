@@ -5,7 +5,7 @@ import ApexCharts from "apexcharts";
 import { useEffect } from "react";
 
 
-export default function BarChartTimeLine({ linhaTempo }: { linhaTempo: ILinhaTempo }) {
+export default function BarChartTimeLine({ linhaTempo }: { linhaTempo: ILinhaTempo | undefined }) {
 
     useEffect(function mount() {
         const options = {
