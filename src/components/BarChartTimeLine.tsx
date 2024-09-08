@@ -5,39 +5,52 @@ import ApexCharts from "apexcharts";
 import { useEffect } from "react";
 
 
-export default function BarChartTimeLine({ linhaTempo }: { linhaTempo: ILinhaTempo | undefined }) {
+export default function BarChartTimeLine({ linhaTempo }: { linhaTempo: ILinhaTempo }) {
+
+    const series = transformarSorteio(linhaTempo);
+    // Função para agrupar os dados
+    function transformarSorteio(linhaTempo: ILinhaTempo) {
+        const series = linhaTempo.numeros.map(numeroObj => {
+            const contadorDatas = {};
+
+            // Contabilizar quantas vezes cada data formatada (MM/yyyy) aparece
+            numeroObj.datas.forEach(data => {
+                const dataFormatada = formatarData(data);
+                contadorDatas[dataFormatada] = (contadorDatas[dataFormatada] || 0) + 1;
+            });
+
+            // Converter os dados para o formato { x: MM/yyyy, y: contagem }
+            const dataFormatadaArray = Object.entries(contadorDatas).map(([data, contagem]) => {
+                return { x: data, y: contagem };
+            });
+
+            // Retornar o formato final
+            return {
+                name: numeroObj.numero.toString(),
+                data: dataFormatadaArray
+            };
+        });
+
+        return series;
+    }
+
+    function formatarData(data: Date) {
+        const dateObj = new Date(data);
+        const mes = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const ano = dateObj.getFullYear();
+        return `${mes}/${ano}`;
+    }
+
+
+
+    console.log(series);
+
+
+    //console.log(linhaTempo)
 
     useEffect(function mount() {
         const options = {
-            colors: ["#1A56DB", "#FDBA8C"],
-            series: [
-                {
-                    name: "Organic",
-                    color: "#1A56DB",
-                    data: [
-                        { x: "Mon", y: 231 },
-                        { x: "Tue", y: 122 },
-                        { x: "Wed", y: 63 },
-                        { x: "Thu", y: 421 },
-                        { x: "Fri", y: 122 },
-                        { x: "Sat", y: 323 },
-                        { x: "Sun", y: 111 },
-                    ],
-                },
-                {
-                    name: "Social media",
-                    color: "#FDBA8C",
-                    data: [
-                        { x: "Mon", y: 232 },
-                        { x: "Tue", y: 113 },
-                        { x: "Wed", y: 341 },
-                        { x: "Thu", y: 224 },
-                        { x: "Fri", y: 522 },
-                        { x: "Sat", y: 411 },
-                        { x: "Sun", y: 243 },
-                    ],
-                },
-            ],
+            series: series,
             chart: {
                 type: "bar",
                 height: "320px",
@@ -117,7 +130,7 @@ export default function BarChartTimeLine({ linhaTempo }: { linhaTempo: ILinhaTem
             const chart = new ApexCharts(document.getElementById("column-chart"), options);
             chart.render();
         }
-    }, []);
+    }, [linhaTempo]);
 
 
 
