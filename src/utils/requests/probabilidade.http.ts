@@ -23,7 +23,7 @@ export async function GetLinhaDoTempo(loteria: string, numeros: number[]): Promi
             'Content-Type': 'application/json;charset=UTF-8'
         },
         method: "POST",
-        body: JSON.stringify(numeros),
+        body: JSON.stringify({ numeros }),
     });
     return await response.json() as ILinhaTempo;
 }
